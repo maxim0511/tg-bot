@@ -12,25 +12,20 @@ export const Form = () => {
   });
 
   const onSubmit = () =>
-    useCallback(
-      () => TELEGRAM.sendData(JSON.stringify(formState)),
-      [
-        formState.country.length,
-        formState.street.length,
-        formState.subject.length,
-      ]
-    );
-
-  useEffect(() => {
-    TELEGRAM.onEvent("mainButtonClicked", onSubmit);
-
-    return () => TELEGRAM.offEvent("mainButtonClicked", onSubmit);
-  });
+    useCallback(() => {
+      console.log(formState);
+      TELEGRAM.sendData(JSON.stringify(formState));
+    }, [
+      formState.country.length,
+      formState.street.length,
+      formState.subject.length,
+    ]);
 
   useEffect(() => {
     TELEGRAM.MainButton.setParams({
       text: "Отправить данные",
     });
+    TELEGRAM.MainButton.onClick(onSubmit);
   }, []);
 
   const onChangeFormState = (e) => (key) => {
