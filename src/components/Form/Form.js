@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Form.css";
 import { useTelegram } from "../../hooks";
 
@@ -11,10 +11,19 @@ export const Form = () => {
     subject: "physical",
   });
 
+  const onSubmit = () =>
+    useCallback(
+      () => TELEGRAM.sendData(JSON.stringify(formState)),
+      [formState.country, formState.street, formState.subject]
+    );
+
   useEffect(() => {
     TELEGRAM.MainButton.setParams({
       text: "Отправить данные",
     });
+    TELEGRAM.WebApp.OnEvent("mainButtonClicked", onSubmit);
+
+    return () => TELEGRAM.WebApp.offEvent("mainButtonClicked", onSubmit);
   }, []);
 
   const onChangeFormState = (e) => (key) => {
