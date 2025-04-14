@@ -24,11 +24,9 @@ export const Form = () => {
       TELEGRAM.MainButton.hide();
     else {
       TELEGRAM.MainButton.show();
-      setTimeout(() => {
-        TELEGRAM.onEvent("mainButtonClicked", () =>
-          TELEGRAM.sendData(JSON.stringify(formState))
-        );
-      }, 1000);
+      TELEGRAM.onEvent("mainButtonClicked", () =>
+        TELEGRAM.sendData(JSON.stringify(formState))
+      );
     }
   };
 
