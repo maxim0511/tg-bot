@@ -14,7 +14,9 @@ export const Form = () => {
   const onSubmit = TELEGRAM.sendData(JSON.stringify(formState));
 
   useEffect(() => {
-    TELEGRAM.MainButton.onClick(onSubmit);
+    TELEGRAM.onEvent("mainButtonClicked", onSubmit);
+
+    return () => TELEGRAM.offEvent("mainButtonClicked", onSubmit);
   }, []);
 
   useEffect(() => {
