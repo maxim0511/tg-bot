@@ -15,7 +15,7 @@ export const Form = () => {
 
   useEffect(() => {
     TELEGRAM.MainButton.onClick(onSubmit);
-  }, [formState.country, formState.street, formState.subject]);
+  }, []);
 
   useEffect(() => {
     TELEGRAM.MainButton.setParams({
