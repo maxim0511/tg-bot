@@ -11,16 +11,6 @@ export const Form = () => {
     subject: "physical",
   });
 
-  const onSubmit = useCallback(() => {
-    TELEGRAM.sendData(JSON.stringify(formState));
-  }, [formState]);
-
-  useEffect(() => {
-    TELEGRAM.onEvent("mainButtonClicked", onSubmit);
-
-    return () => TELEGRAM.offEvent("mainButtonClicked", onSubmit);
-  }, []);
-
   useEffect(() => {
     TELEGRAM.MainButton.setParams({
       text: "Отправить данные",
@@ -30,9 +20,12 @@ export const Form = () => {
   const onChangeFormState = (e) => (key) => {
     setFormState((prev) => ({ ...prev, [key]: e.target.value }));
 
-    if (!formState.country.length || !formState.street.length)
+    if (!formState.country.length || !formState.street.length) {
       TELEGRAM.MainButton.hide();
-    else TELEGRAM.MainButton.show();
+      TELEGRAM.onEvent("mainButtonClicked", () =>
+        TELEGRAM.sendData(JSON.stringify(formState))
+      );
+    } else TELEGRAM.MainButton.show();
   };
 
   return (
