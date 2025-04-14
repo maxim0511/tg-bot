@@ -20,12 +20,14 @@ export const Form = () => {
   const onChangeFormState = (e) => (key) => {
     setFormState((prev) => ({ ...prev, [key]: e.target.value }));
 
-    if (!formState.country.length || !formState.street.length) {
+    if (!formState.country.length || !formState.street.length)
       TELEGRAM.MainButton.hide();
+    else {
+      TELEGRAM.MainButton.show();
       TELEGRAM.onEvent("mainButtonClicked", () =>
         TELEGRAM.sendData(JSON.stringify(formState))
       );
-    } else TELEGRAM.MainButton.show();
+    }
   };
 
   return (
