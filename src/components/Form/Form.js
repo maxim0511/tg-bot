@@ -11,13 +11,11 @@ export const Form = () => {
     subject: "physical",
   });
 
-  const onSubmit = useCallback(() => {
-    TELEGRAM.sendData(JSON.stringify(formState));
-  }, [formState.country, formState.street, formState.subject]);
+  const onSubmit = TELEGRAM.sendData(JSON.stringify(formState));
 
   useEffect(() => {
     TELEGRAM.MainButton.onClick(onSubmit);
-  }, []);
+  }, [formState.country, formState.street, formState.subject]);
 
   useEffect(() => {
     TELEGRAM.MainButton.setParams({
