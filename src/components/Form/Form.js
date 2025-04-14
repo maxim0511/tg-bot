@@ -11,7 +11,9 @@ export const Form = () => {
     subject: "physical",
   });
 
-  const onSubmit = TELEGRAM.sendData(JSON.stringify(formState));
+  const onSubmit = useCallback(() => {
+    TELEGRAM.sendData(JSON.stringify(formState));
+  }, [formState]);
 
   useEffect(() => {
     TELEGRAM.onEvent("mainButtonClicked", onSubmit);
