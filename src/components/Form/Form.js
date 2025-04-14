@@ -13,11 +13,7 @@ export const Form = () => {
 
   const onSubmit = useCallback(() => {
     TELEGRAM.sendData(JSON.stringify(formState));
-  }, [
-    formState.country.length,
-    formState.street.length,
-    formState.subject.length,
-  ]);
+  }, [formState.country, formState.street, formState.subject]);
 
   useEffect(() => {
     TELEGRAM.MainButton.onClick(onSubmit);
