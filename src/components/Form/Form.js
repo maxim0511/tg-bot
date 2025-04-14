@@ -21,9 +21,9 @@ export const Form = () => {
     TELEGRAM.MainButton.setParams({
       text: "Отправить данные",
     });
-    TELEGRAM.WebApp.OnEvent("mainButtonClicked", onSubmit);
+    TELEGRAM.onEvent("mainButtonClicked", onSubmit);
 
-    return () => TELEGRAM.WebApp.offEvent("mainButtonClicked", onSubmit);
+    return () => TELEGRAM.offEvent("mainButtonClicked", onSubmit);
   }, []);
 
   const onChangeFormState = (e) => (key) => {
