@@ -14,16 +14,23 @@ export const Form = () => {
   const onSubmit = () =>
     useCallback(
       () => TELEGRAM.sendData(JSON.stringify(formState)),
-      [formState.country, formState.street, formState.subject]
+      [
+        formState.country.length,
+        formState.street.length,
+        formState.subject.length,
+      ]
     );
+
+  useEffect(() => {
+    TELEGRAM.onEvent("mainButtonClicked", onSubmit);
+
+    return () => TELEGRAM.offEvent("mainButtonClicked", onSubmit);
+  });
 
   useEffect(() => {
     TELEGRAM.MainButton.setParams({
       text: "Отправить данные",
     });
-    TELEGRAM.onEvent("mainButtonClicked", onSubmit);
-
-    return () => TELEGRAM.offEvent("mainButtonClicked", onSubmit);
   }, []);
 
   const onChangeFormState = (e) => (key) => {
