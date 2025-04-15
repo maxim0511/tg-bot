@@ -18,16 +18,17 @@ export const Form = () => {
   }, []);
 
   const onChangeFormState = (e) => (key) => {
-    setFormState((prev) => ({ ...prev, [key]: e.target.value }));
+    setFormState((prev) => {
+      const state = { ...prev, [key]: e.target.value };
+      TELEGRAM.onEvent("mainButtonClicked", () =>
+        TELEGRAM.sendData(JSON.stringify(state))
+      );
+      return state;
+    });
 
     if (!formState.country.length || !formState.street.length)
       TELEGRAM.MainButton.hide();
-    else {
-      TELEGRAM.MainButton.show();
-      TELEGRAM.onEvent("mainButtonClicked", () =>
-        TELEGRAM.sendData(JSON.stringify(formState))
-      );
-    }
+    else TELEGRAM.MainButton.show();
   };
 
   return (
