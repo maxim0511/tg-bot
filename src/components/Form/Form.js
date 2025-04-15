@@ -11,11 +11,14 @@ export const Form = () => {
     subject: "physical",
   });
 
+  const onSendData = useCallback(() => {
+    TELEGRAM.sendData(JSON.stringify(formState));
+  }, [formState.country, formState.street, formState.subject]);
+
   useEffect(() => {
-    TELEGRAM.MainButton.setParams({
-      text: "Отправить данные",
-    });
-  }, []);
+    TELEGRAM.onEvent("mainButtonClicked", onSendData);
+    return () => TELEGRAM.offEvent("mainButtonClicked", onSendData);
+  }, [onSendData]);
 
   const onChangeFormState = (e) => (key) => {
     TELEGRAM.offEvent("mainButtonClicked", () =>
@@ -27,9 +30,9 @@ export const Form = () => {
       TELEGRAM.MainButton.hide();
     else {
       TELEGRAM.MainButton.show();
-      TELEGRAM.onEvent("mainButtonClicked", () =>
-        TELEGRAM.sendData(JSON.stringify(formState))
-      );
+      TELEGRAM.MainButton.setParams({
+        text: "Отправить данные",
+      });
     }
   };
 
