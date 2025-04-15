@@ -11,6 +11,7 @@ export const useTelegram = () => {
   return {
     TELEGRAM,
     user: TELEGRAM.initDataUnsafe?.user,
+    queryId: TELEGRAM.initDataUnsafe?.query_id,
     onClose,
     onToggleButton,
   };
